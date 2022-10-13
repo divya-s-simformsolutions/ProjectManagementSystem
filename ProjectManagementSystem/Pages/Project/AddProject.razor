@@ -1,0 +1,40 @@
+﻿@page "/AddProject"
+@using ProjectManagementSystem.Data
+@inject ProjectsService projectsService
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+<h2>Add Project</h2>
+<hr />
+
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input form="Name" class="form-control" @bind="@obj.Name" />
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CreateProject" value="Save"/>
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel"/>
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    Project obj = new Project();
+    protected async void CreateProject()
+    {
+        await projectsService.InsertProjectAsync(obj);
+        NavigationManager.NavigateTo("Projectslist");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Projectslist");
+    }
+}
